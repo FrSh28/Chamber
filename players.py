@@ -1,6 +1,6 @@
 from visual import*
 from PIL import Image
-import guns
+import weapons
 
 team_color = [(25/255.0, 175/255.0, 55/255.0), color.red, color.blue]
 dying = []
