@@ -1,4 +1,4 @@
-import visual as vpy
+from visual import*
 import os
 
 os.system("pause")

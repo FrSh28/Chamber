@@ -1,4 +1,4 @@
-import visual as vpy
+from visual import*
 
 class guns():
 	def __init__(self):

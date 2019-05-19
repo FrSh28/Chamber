@@ -1,4 +1,4 @@
-import visual as vpy
+from visual import*
 
 class objects():
     def __init__(self):
