@@ -14,7 +14,7 @@ class players():
         self.horizontal_axis = vector(self.axis.x, 0, self.axis.z)
         self.health = HEALTH
         self.team = TEAM
-        self.moving_speed = 50.0
+        self.moving_speed = 30.0
         self.moving_dir = vector(0, 0, 0)
         self.body = frame(pos = self.pos, axis = self.horizontal_axis, frames = (), head = None, torso = None, hands = None, right_leg = None, left_leg = None, visible = False)
         self.body.head = sphere(frame = self.body, pos = vector(0, 1.45, 0), radius = 0.25, axis = vector(1, 0, 0), color = (255/255.0, 204/255.0, 77/255.0), material = materials.texture(data = Image.open("images\\face.tga"), mapping = "sign"))

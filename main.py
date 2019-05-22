@@ -19,7 +19,7 @@ gameroom = [ob.unbreakable_walls(POS = vector(-20.5, 2, 0), X_LENGTH = 1, Z_LENG
 lights = [local_light(pos = (i*6, 4, j*6), color = color.gray(0.2)) for i in range(-3, 4) for j in range(-3, 4)]
 light_bulbs = [sphere(pos = (i*6, 4, j*6), radius = 0.1, color = color.yellow, material = materials.glass) for i in range(-3, 4) for j in range(-3, 4)]
 
-key_pressed = {"w":0, "a":0, "s":0, "d":0}
+key_pressed = {"w":0, "a":0, "s":0, "d":0, "i":0, "k":0, "j":0, "l":0}
 
 def keydown_handler(evt):
     global key_pressed, MYSELF
@@ -60,18 +60,64 @@ def keyup_handler(evt):
     global key_pressed
     k = evt.key
     if k == "w":
-        if key_pressed["w"]:
-            key_pressed["w"] = 0
+        key_pressed["w"] = 0
     elif k == "s":
-        if key_pressed["s"]:
-            key_pressed["s"] = 0
+        key_pressed["s"] = 0
     elif k == "a":
-        if key_pressed["a"]:
-            key_pressed["a"] = 0
+        key_pressed["a"] = 0
     elif k == "d":
-        if key_pressed["d"]:
-            key_pressed["d"] = 0
+        key_pressed["d"] = 0
 scene.bind("keyup", keyup_handler)
+
+
+def keydown_handler(evt):
+    global key_pressed, OTHER
+    k = evt.key
+    if k == "escape":
+        pass
+    elif k == "r":
+        pass
+    elif k == "i" or k == "k" or k == "j" or k == "l":
+        if k == "i":
+            key_pressed["i"] = 1
+            key_pressed["k"] = 0
+        elif k == "k":
+            key_pressed["k"] = 1
+            key_pressed["i"] = 0
+        elif k == "j":
+            key_pressed["j"] = 1
+            key_pressed["l"] = 0
+        elif k == "l":
+            key_pressed["l"] = 1
+            key_pressed["j"] = 0
+        tmp_dir = vector(0, 0, 0)
+        if key_pressed["i"]:
+            tmp_dir += vector(1, 0, 0)
+        elif key_pressed["k"]:
+            tmp_dir += vector(-1, 0, 0)
+        if key_pressed["j"]:
+            tmp_dir += vector(0, 0, -1)
+        elif key_pressed["l"]:
+            tmp_dir += vector(0, 0, 1)
+        forward = vector(scene.forward.x, 0, scene.forward.z)
+        tmp_dir = rotate(vector = forward, angle = diff_angle(vector(1, 0, 0), tmp_dir), axis = cross(vector(1, 0, 0), tmp_dir))
+        OTHER.set_moving_dir(tmp_dir)
+        OTHER.move(forward)
+scene.bind("keydown", keydown_handler)
+
+def keyup_handler(evt):
+    global key_pressed
+    k = evt.key
+    if k == "i":
+        key_pressed["i"] = 0
+    elif k == "k":
+        key_pressed["k"] = 0
+    elif k == "j":
+        key_pressed["j"] = 0
+    elif k == "l":
+        key_pressed["l"] = 0
+scene.bind("keyup", keyup_handler)
+
 
 def mouse_handler(evt):
     global bullets_list, scene
@@ -82,6 +128,7 @@ scene.bind("click", mouse_handler)
 
 MYSELF = pl.players(ID = 1, NAME = "SELF", POS = vector(0, 0, 0), AXIS = vector(0, 0, -1), WEAPON = "shotgun", dT = scene.dt)
 MYSELF.body.head.visible = False
+OTHER = pl.players(ID = 2, NAME = "SO", POS = vector(0, 0, -5), AXIS = vector(0, 0, 1), WEAPON = "rifle", dT = scene.dt)
 bullets_list = []
 targets_list = []
 
@@ -90,6 +137,7 @@ while True:
 
     scene.center = (MYSELF.body).frame_to_world(MYSELF.body.head.pos)
     MYSELF.set_vision_axis(scene.mouse.ray)
+    OTHER.set_vision_axis(vector(-scene.mouse.ray.x, scene.mouse.ray.y, -scene.mouse.ray.z))
 
     if rd.random() < 0.005 and len(targets_list) < 10:
         targets_list.append(ob.targets(POS = vector(rd.random()*40-20, 2.5, rd.random()*40-20), RADIUS = 0.5, AXIS = vector(1, 0, 0)))
