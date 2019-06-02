@@ -1,0 +1,7 @@
+{
+    "ID": 264, 
+    "exp": 10, 
+    "level": 1, 
+    "name": "FR", 
+    "password": "1234"
+}
