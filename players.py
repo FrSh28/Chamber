@@ -60,6 +60,7 @@ class players():
 
     def moving_method_down(self, evt):
         k = evt.key
+        print k
         if k == "w":
             self.key_pressed["w"] = 1
             self.key_pressed["s"] = 0
@@ -72,15 +73,6 @@ class players():
         elif k == "d":
             self.key_pressed["d"] = 1
             self.key_pressed["a"] = 0
-        tmp_dir = vector(0, 0, 0)
-        if self.key_pressed["w"]:
-            tmp_dir += vector(1, 0, 0)
-        elif self.key_pressed["s"]:
-            tmp_dir += vector(-1, 0, 0)
-        if self.key_pressed["a"]:
-            tmp_dir += vector(0, 0, -1)
-        elif self.key_pressed["d"]:
-            tmp_dir += vector(0, 0, 1)
         self.set_moving()
 
     def moving_method_up(self, evt):

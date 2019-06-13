@@ -55,7 +55,7 @@ class practice_mode(object):
 
             for obj in self.scene.objects:
                 if hasattr(obj, "v"):
-                    obj.pos += obj.v * scene.dt
+                    obj.pos += obj.v * self.scene.dt
                     if type(obj) == pl.players:
                         obj.body.pos = obj.pos
 
